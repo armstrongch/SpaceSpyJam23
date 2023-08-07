@@ -13,7 +13,7 @@ namespace SpaceSpyJam23
         WINDOW,
         TV,
         BLINKING_ANSWERING_MACHINE,
-        ANSWERING_MACHINE
+        ANSWERING_MACHINE,
     }
     
     public class ItemFactory
