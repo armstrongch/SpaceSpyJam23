@@ -16,10 +16,12 @@ namespace SpaceSpyJam23
             Item bed = ItemFactory.GenerateItem(ITEMS.BED);
             Item woodstove = ItemFactory.GenerateItem(ITEMS.WOOD_STOVE);
             Item window = ItemFactory.GenerateItem(ITEMS.WINDOW);
+            Item tv = ItemFactory.GenerateItem(ITEMS.TV);
+            Item answeringMachine = ItemFactory.GenerateItem(ITEMS.BLINKING_ANSWERING_MACHINE);
 
             Location home = new Location(
                 "HOME", "A cozy log cabin.",
-                new List<Item>() { bed, woodstove, window },
+                new List<Item>() { bed, woodstove, window, tv, answeringMachine },
                 new Dictionary<string, string>()
                 {
                     { "DOOR", "FRONT YARD" }

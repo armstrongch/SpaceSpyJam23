@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SpaceSpyJam23
 {
@@ -65,12 +66,25 @@ namespace SpaceSpyJam23
         public void DoItemAction(string itemName, string itemActionName)
         {
             Item item = Items.First(i => i.Name == itemName);
-            item.DoItemAction(itemActionName);
+            item.DoItemAction(itemActionName, this);
         }
 
         public string GetLocationNameFromExitName(string exitName)
         {
             return Exits[exitName];
+        }
+
+        public void ReplaceItem(string oldItemName, ITEMS newItem)
+        {
+            for (int i = 0; i < Items.Count; i ++)
+            {
+                if (Items[i].Name == oldItemName)
+                {
+                    Items.RemoveAt(i);
+                    Items.Add(ItemFactory.GenerateItem(newItem));
+                    break;
+                }
+            }
         }
     }
 }

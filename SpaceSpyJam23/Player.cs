@@ -80,7 +80,7 @@ namespace SpaceSpyJam23
         public void DoItemAction(string itemName, string itemActionName)
         {
             Item item = Inventory.First(i => i.Name == itemName);
-            item.DoItemAction(itemActionName);
+            item.DoItemAction(itemActionName, CurrentLocation);
         }
     }
 }
