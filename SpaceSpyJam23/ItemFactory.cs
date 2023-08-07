@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,11 +16,17 @@ namespace SpaceSpyJam23
         TV,
         BLINKING_ANSWERING_MACHINE,
         ANSWERING_MACHINE,
+        DEBRIS,
+
+        ACORN,
+        LEAVES,
+        ROCKS,
+        STICKS,
+        PINECONE
     }
     
     public class ItemFactory
     {
-
         private static ITEMS stringToItemsEnum(string itemName)
         {
             return (ITEMS)Enum.Parse(typeof(ITEMS), itemName);
@@ -32,6 +40,8 @@ namespace SpaceSpyJam23
         
         public static Item GenerateItem(ITEMS item)
         {
+            ItemAction eatItemAction = new ItemAction("eat", "Take a bite.", ACTION_TYPE.INVENTORY, eat);
+            
             switch (item)
             {
                 case ITEMS.BED:
@@ -60,13 +70,25 @@ namespace SpaceSpyJam23
                     return new Item(item.ToString(), new List<ItemAction>() {
                         new ItemAction("examine", "Check your voicemail.", ACTION_TYPE.WORLD, examine),
                     });
+                case ITEMS.DEBRIS:
+                    return new Item(item.ToString(), new List<ItemAction>() {
+                        new ItemAction("examine", "Search through the debris.", ACTION_TYPE.WORLD, examine),
+                    });
+                case ITEMS.ACORN: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                case ITEMS.LEAVES: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                case ITEMS.ROCKS: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                case ITEMS.STICKS: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                case ITEMS.PINECONE: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                
                 default:
                     throw new NotImplementedException();
             }
         }
 
-        static string examine(string itemName, Location location)
+        static string examine(string itemName, Location location, Player player)
         {
+            Random rand = new Random();
+
             switch (itemName)
             {
                 case "BED":
@@ -78,24 +100,36 @@ namespace SpaceSpyJam23
                 case "TV":
                     return "When you turn on the television, there is nothing but static. The cable must be out again.";
                 case "BLINKING ANSWERING MACHINE":
-                    location.ReplaceItem(itemName, ITEMS.ANSWERING_MACHINE);
+                    location.RemoveOrReplaceItem(itemName, ITEMS.ANSWERING_MACHINE);
                     return "You have two new voice messages. First message:\n"
                         + "\"Hello, this is an automated message from the Salem Community Cable Company. There have been reports of a downed line in your area. We are sending a crew out to evaluate shortly, and you can expect an outage of 48-72 hours. Thank you.\"\n"
                         + "Second message:\n"
                         + "\"Hey, this is Lara from next door. I think the storm knocked down another tree last night, and the TV is on the fritz again. Can you try to fix it? Those goons from the cable company always take ages to drive out here from the city, and I don't want to miss the big game tonight! Talk to you later.\"";
                 case "ANSWERING MACHINE":
                     return "There are no new messages.";
+                case "DEBRIS":
+                    List<ITEMS> debrisItems = new List<ITEMS>() { ITEMS.ACORN, ITEMS.LEAVES, ITEMS.ROCKS, ITEMS.STICKS, ITEMS.PINECONE };
+                    debrisItems = debrisItems.OrderBy(r => rand.Next()).ToList();
+                    player.PickUpItem(GenerateItem(debrisItems[0]));
+                    player.PickUpItem(GenerateItem(debrisItems[1]));
+                    location.RemoveOrReplaceItem(itemName, null);
+                    return $"Last night's storm has blown all kinds of debris out of the woods. You find: {debrisItems[0].ToString()} and {debrisItems[1].ToString()}.";
                 default:
                     return $"{itemName} is not very exciting";
             }
         }
-        static string nap(string itemName, Location location)
+        static string nap(string itemName, Location location, Player player)
         {
             return $"You take a quick nap in the {itemName}.";
         }
-        static string sleep(string itemName, Location location)
+        static string sleep(string itemName, Location location, Player player)
         {
             return $"You take a long snooze in the {itemName}.";
+        }
+
+        static string eat(string itemName, Location location, Player player)
+        {
+            return $"{itemName} doesn't taste very good. You can't eat that!";
         }
     }
 }

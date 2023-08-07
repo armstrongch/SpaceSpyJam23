@@ -63,10 +63,10 @@ namespace SpaceSpyJam23
             return item.GetItemActionNames(ACTION_TYPE.WORLD, includeDescriptions);
         }
 
-        public void DoItemAction(string itemName, string itemActionName)
+        public void DoItemAction(string itemName, string itemActionName, Player player)
         {
             Item item = Items.First(i => i.Name == itemName);
-            item.DoItemAction(itemActionName, this);
+            item.DoItemAction(itemActionName, this, player);
         }
 
         public string GetLocationNameFromExitName(string exitName)
@@ -74,14 +74,17 @@ namespace SpaceSpyJam23
             return Exits[exitName];
         }
 
-        public void ReplaceItem(string oldItemName, ITEMS newItem)
+        public void RemoveOrReplaceItem(string oldItemName, ITEMS? newItem)
         {
             for (int i = 0; i < Items.Count; i ++)
             {
                 if (Items[i].Name == oldItemName)
                 {
                     Items.RemoveAt(i);
-                    Items.Add(ItemFactory.GenerateItem(newItem));
+                    if (newItem != null)
+                    {
+                        Items.Add(ItemFactory.GenerateItem((ITEMS)newItem));
+                    }
                     break;
                 }
             }

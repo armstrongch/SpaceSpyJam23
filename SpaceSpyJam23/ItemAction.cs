@@ -17,9 +17,9 @@ namespace SpaceSpyJam23
         public string Name { get; private set; }
         public string Description { get; private set; }
         public ACTION_TYPE Type { get; private set; }
-        public Func<string, Location, string> Action { get; private set; }
+        public Func<string, Location, Player, string> Action { get; private set; }
 
-        public ItemAction(string name, string description, ACTION_TYPE type, Func<string, Location, string> action)
+        public ItemAction(string name, string description, ACTION_TYPE type, Func<string, Location, Player, string> action)
         {
             this.Name = name.ToUpper();
             this.Description = description;

@@ -29,7 +29,11 @@ namespace SpaceSpyJam23
 
             Location frontYard = new Location(
                 "FRONT YARD", "A rectangular patch of leaf-strewn grass, surrounded by dense forest on three sides.",
-                new List<Item>() { },
+                new List<Item>()
+                {
+                    ItemFactory.GenerateItem(ITEMS.DEBRIS),
+                    ItemFactory.GenerateItem(ITEMS.DEBRIS)
+                },
                 new Dictionary<string, string>()
                 {
                     { "YOUR HOUSE", "HOME" },
@@ -104,7 +108,6 @@ namespace SpaceSpyJam23
             Locations.Add(fireRoad);
             Locations.Add(hilltop);
             
-
             return home;
         }
 

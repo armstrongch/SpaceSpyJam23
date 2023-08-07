@@ -79,7 +79,7 @@ namespace SpaceSpyJam23
                         {
                             if (input.Contains(actionName))
                             {
-                                playerLocation.DoItemAction(itemName, actionName);
+                                playerLocation.DoItemAction(itemName, actionName, player);
                                 return false;
                             }
                         }

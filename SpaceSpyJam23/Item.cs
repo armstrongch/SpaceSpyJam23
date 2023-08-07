@@ -36,10 +36,10 @@ namespace SpaceSpyJam23
             return itemActionNames.ToArray();
         }
 
-        public void DoItemAction(string actionName, Location currentLocation)
+        public void DoItemAction(string actionName, Location currentLocation, Player player)
         {
             ItemAction itemAction = ItemActions.First(i => i.Name == actionName);
-            Console.WriteLine(itemAction.Action(Name, currentLocation));
+            Console.WriteLine(itemAction.Action(Name, currentLocation, player));
         }
 
         public void Rename(string newName)
