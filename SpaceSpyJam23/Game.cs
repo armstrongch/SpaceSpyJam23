@@ -128,6 +128,10 @@ namespace SpaceSpyJam23
             Console.WriteLine("Nearby Items: " + String.Join(", ", loc.GetItemNames()));
             Console.WriteLine("Nearby Exits: " + String.Join(", ", loc.GetExitNames()));
             Console.WriteLine("Items in your Pockets: " + String.Join(", ", Player.GetItemNames()));
+            if (Player.CurrentLocation.Name != "HOME")
+            {
+                Console.WriteLine("Warmth: " + Player.SkillValues[SKILLS.WARMTH] + "%");
+            }
         }
 
         private string GetPlayerName(string gameTitle)

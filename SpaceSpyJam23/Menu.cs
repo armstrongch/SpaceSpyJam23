@@ -8,7 +8,7 @@ namespace SpaceSpyJam23
 {
     public class Menu
     {
-        public const string GameTitle = "UNIQUE GAME NAME";
+        public const string GameTitle = "Space Spy Jam 2023";
 
         public Menu()
         {

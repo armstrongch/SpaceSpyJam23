@@ -16,7 +16,7 @@ namespace SpaceSpyJam23
         
         public Item(string name, List<ItemAction> ItemActions)
         {
-            this.Name = name.ToUpper();
+            this.Name = name.ToUpper().Replace("_", " ");
             this.ItemActions = ItemActions;
         }
 

@@ -9,10 +9,7 @@ namespace SpaceSpyJam23
 {
     public enum SKILLS
     {
-        CHARISMA,
-        BRAVERY,
-        STRENGTH,
-        INTELLIGENCE
+        WARMTH,
     }
 
     public class Player
@@ -29,10 +26,7 @@ namespace SpaceSpyJam23
             Name = name;
             SkillValues = new Dictionary<SKILLS, int>()
             {
-                { SKILLS.CHARISMA, 0 },
-                { SKILLS.BRAVERY, 0 },
-                { SKILLS.STRENGTH, 0 },
-                { SKILLS.INTELLIGENCE, 0 }
+                { SKILLS.WARMTH, 100 },
             };
             Inventory = new List<Item>();
         }
@@ -45,13 +39,10 @@ namespace SpaceSpyJam23
 
         public void UpdateSkillValue(string attributeName, int value)
         {
-            SKILLS skill = SKILLS.CHARISMA;
+            SKILLS skill = SKILLS.WARMTH;
             switch(attributeName.ToUpper())
             {
-                case "BRAVERY": skill = SKILLS.BRAVERY; break;
-                case "STRENGTH": skill = SKILLS.STRENGTH; break;
-                case "INTELLIGENCE": skill = SKILLS.INTELLIGENCE; break;
-                case "CHARISMA": skill = SKILLS.CHARISMA; break;
+                case "WARMTH": skill = SKILLS.WARMTH; break;
                 default: throw new NotImplementedException();
             }
             UpdateSkillValue(skill, value);

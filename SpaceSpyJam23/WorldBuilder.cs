@@ -14,32 +14,36 @@ namespace SpaceSpyJam23
         private Location BuildWorld()
         {
             Item bed = ItemFactory.GenerateItem(ITEMS.BED);
-            
-            Location apartment = new Location(
-                "APARTMENT", "The place where you live.",
-                new List<Item>() { bed },
+            Item woodstove = ItemFactory.GenerateItem(ITEMS.WOOD_STOVE);
+            Item window = ItemFactory.GenerateItem(ITEMS.WINDOW);
+
+            Location home = new Location(
+                "HOME", "A cozy log cabin.",
+                new List<Item>() { bed, woodstove, window },
                 new Dictionary<string, string>()
                 {
-                    { "APARTMENT BATHROOM", "APARTMENT BATHROOM" }
+                    { "DOOR", "FRONT YARD" }
                 });
 
-            Location apartmentBathroom = new Location(
-                "APARTMENT BATHROOM", "An adjoining closet containing a shower, toilet, and sink.",
-                new List<Item>(),
+            Location frontYard = new Location(
+                "FRONT YARD", "A rectangular patch of leaf-strewn grass, surrounded by dense forest on three sides.",
+                new List<Item>() { },
                 new Dictionary<string, string>()
                 {
-                    { "APARTMENT", "APARTMENT" }
+                    { "YOUR HOUSE", "HOME" }
                 });
 
-            Locations.Add(apartment);
-            Locations.Add(apartmentBathroom);
 
-            return apartment;
+
+            Locations.Add(home);
+            Locations.Add(frontYard);
+
+            return home;
         }
 
         private void SetupPlayerInventory()
         {
-            Player.PickUpItem(ItemFactory.GenerateItem(ITEMS.WALLET));
+            //Player.PickUpItem(ItemFactory.GenerateItem(ITEMS.WALLET));
         }
     }
 }
