@@ -22,7 +22,9 @@ namespace SpaceSpyJam23
         LEAVES,
         ROCKS,
         STICKS,
-        PINECONE
+        PINECONE,
+
+        CAMPFIRE,
     }
     
     public class ItemFactory
@@ -41,6 +43,7 @@ namespace SpaceSpyJam23
         public static Item GenerateItem(ITEMS item)
         {
             ItemAction eatItemAction = new ItemAction("eat", "Take a bite.", ACTION_TYPE.INVENTORY, eat);
+            ItemAction buildCampfireItemAction = new ItemAction("ignite", "build a small campfire", ACTION_TYPE.INVENTORY, buildCampfire);
             
             switch (item)
             {
@@ -75,11 +78,16 @@ namespace SpaceSpyJam23
                         new ItemAction("examine", "Search through the debris.", ACTION_TYPE.WORLD, examine),
                     });
                 case ITEMS.ACORN: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
-                case ITEMS.LEAVES: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                case ITEMS.LEAVES: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction, buildCampfireItemAction });
                 case ITEMS.ROCKS: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
                 case ITEMS.STICKS: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
-                case ITEMS.PINECONE: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction });
+                case ITEMS.PINECONE: return new Item(item.ToString(), new List<ItemAction>() { eatItemAction, buildCampfireItemAction });
                 
+                case ITEMS.CAMPFIRE:
+                    return new Item(item.ToString(), new List<ItemAction>() {
+                        new ItemAction("examine", "Warm yourself by the campfire.", ACTION_TYPE.WORLD, examine),
+                    });
+
                 default:
                     throw new NotImplementedException();
             }
@@ -107,6 +115,9 @@ namespace SpaceSpyJam23
                         + "\"Hey, this is Lara from next door. I think the storm knocked down another tree last night, and the TV is on the fritz again. Can you try to fix it? Those goons from the cable company always take ages to drive out here from the city, and I don't want to miss the big game tonight! Talk to you later.\"";
                 case "ANSWERING MACHINE":
                     return "There are no new messages.";
+                case "CAMPFIRE":
+                    player.UpdateSkillValue(SKILLS.WARMTH, 100);
+                    return "The tiny campfire is pleasantly warm and cozy on such a cold fall day.";
                 case "DEBRIS":
                     List<ITEMS> debrisItems = new List<ITEMS>() { ITEMS.ACORN, ITEMS.LEAVES, ITEMS.ROCKS, ITEMS.STICKS, ITEMS.PINECONE };
                     debrisItems = debrisItems.OrderBy(r => rand.Next()).ToList();
@@ -130,6 +141,26 @@ namespace SpaceSpyJam23
         static string eat(string itemName, Location location, Player player)
         {
             return $"{itemName} doesn't taste very good. You can't eat that!";
+        }
+
+        static string buildCampfire(string itemName, Location location, Player player)
+        {
+            if (!player.InventoryContainsItem(ITEMS.ROCKS))
+            {
+                return "You can't build a campfire without building a circle of rocks.";
+            }
+            else if (!player.InventoryContainsItem(ITEMS.STICKS))
+            {
+                return "You can't build a campfire without sticks.";
+            }
+            else
+            {
+                player.UpdateSkillValue(SKILLS.WARMTH, 100);
+                player.RemoveItem(ITEMS.ROCKS);
+                player.RemoveItem(ITEMS.STICKS);
+                player.RemoveItem(itemName);
+                return $"You build a small campfire with ROCKS, STICKS, and {itemName} for kindling. The flickering flame warms you from head to toe.";
+            }
         }
     }
 }

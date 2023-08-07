@@ -100,7 +100,7 @@ namespace SpaceSpyJam23
             if (exitNames.Contains(input))
             {
                 string targetLocationName = playerLocation.GetLocationNameFromExitName(input);
-                Location targetLocation = locations.Where(x => x.Name == targetLocationName).FirstOrDefault();
+                Location targetLocation = locations.FirstOrDefault(x => x.Name == targetLocationName);
                 player.TravelToLocation(targetLocation);
                 return false;
             }

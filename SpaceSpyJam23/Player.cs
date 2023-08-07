@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,10 @@ namespace SpaceSpyJam23
         {
             Console.WriteLine("Travelling to: " + newLocation.Name);
             CurrentLocation = newLocation;
+            if (newLocation.Name != "HOME")
+            {
+                IncrementSkillValue(SKILLS.WARMTH, -5);
+            }
         }
 
         public void UpdateSkillValue(string attributeName, int value)
@@ -51,6 +56,11 @@ namespace SpaceSpyJam23
         public void UpdateSkillValue(SKILLS skill, int value)
         {
             SkillValues[skill] = value;
+        }
+
+        public void IncrementSkillValue(SKILLS skill, int value)
+        {
+            SkillValues[skill] += value;
         }
 
         public void PickUpItem(Item item)
@@ -81,6 +91,30 @@ namespace SpaceSpyJam23
         {
             Item item = Inventory.First(i => i.Name == itemName);
             item.DoItemAction(itemActionName, CurrentLocation, this);
+        }
+
+        public bool InventoryContainsItem(ITEMS item)
+        {
+            Item generatedItem = ItemFactory.GenerateItem(item);
+            return Inventory.Contains(generatedItem);
+        }
+
+        public void RemoveItem(ITEMS item)
+        {
+            Item generatedItem = ItemFactory.GenerateItem(item);
+            Inventory.Remove(generatedItem);
+        }
+
+        public void RemoveItem(string itemName)
+        {
+            foreach (Item item in Inventory)
+            {
+                if (item.Name == itemName)
+                {
+                    Inventory.Remove(item);
+                    break;
+                }
+            }
         }
     }
 }
