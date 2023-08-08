@@ -1,16 +1,1 @@
-﻿Source of Warmth:
-
-Sunny Patch - Warm up to 50
-Stones + Twigs + Lighter = Campfire - Warm up to 100
-Neighbor = Hot Cocoa - Warm up to 75
-
-Map:
-
-Dog Park	Playground
-Cornfield	Pumpkin Patch
-Graveyard	Orchard
-Fire Road
-Hilltop
-
-
-
+﻿

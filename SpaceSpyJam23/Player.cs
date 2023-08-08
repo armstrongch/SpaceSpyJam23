@@ -10,7 +10,7 @@ namespace SpaceSpyJam23
 {
     public enum SKILLS
     {
-        WARMTH,
+        HUNGER,
     }
 
     public class Player
@@ -27,7 +27,7 @@ namespace SpaceSpyJam23
             Name = name;
             SkillValues = new Dictionary<SKILLS, int>()
             {
-                { SKILLS.WARMTH, 100 },
+                { SKILLS.HUNGER, 0 },
             };
             Inventory = new List<Item>();
         }
@@ -36,18 +36,15 @@ namespace SpaceSpyJam23
         {
             Console.WriteLine("Travelling to: " + newLocation.Name);
             CurrentLocation = newLocation;
-            if (newLocation.Name != "HOME")
-            {
-                IncrementSkillValue(SKILLS.WARMTH, -5);
-            }
+            IncrementSkillValue(SKILLS.HUNGER, 5);
         }
 
         public void UpdateSkillValue(string attributeName, int value)
         {
-            SKILLS skill = SKILLS.WARMTH;
+            SKILLS skill = SKILLS.HUNGER;
             switch(attributeName.ToUpper())
             {
-                case "WARMTH": skill = SKILLS.WARMTH; break;
+                case "HUNGER": skill = SKILLS.HUNGER; break;
                 default: throw new NotImplementedException();
             }
             UpdateSkillValue(skill, value);
@@ -95,14 +92,16 @@ namespace SpaceSpyJam23
 
         public bool InventoryContainsItem(ITEMS item)
         {
-            Item generatedItem = ItemFactory.GenerateItem(item);
-            return Inventory.Contains(generatedItem);
+            throw new NotImplementedException("This doesn't work!");
+            //Item generatedItem = ItemFactory.GenerateItem(item);
+            //return Inventory.Contains(generatedItem);
         }
 
         public void RemoveItem(ITEMS item)
         {
-            Item generatedItem = ItemFactory.GenerateItem(item);
-            Inventory.Remove(generatedItem);
+            throw new NotImplementedException("This doesn't work!");
+            //Item generatedItem = ItemFactory.GenerateItem(item);
+            //Inventory.Remove(generatedItem);
         }
 
         public void RemoveItem(string itemName)

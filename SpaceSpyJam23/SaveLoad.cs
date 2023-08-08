@@ -56,7 +56,7 @@ namespace SpaceSpyJam23
             {
                 //<item>Item Name</item>
                 XmlNode item = xmlDoc.CreateElement("item");
-                item.InnerText = inventoryItem.Name;
+                item.InnerText = inventoryItem.Name.Replace(" ", "_");
                 inventoryItems.AppendChild(item);
             }
             playerNode.AppendChild(inventoryItems);
@@ -87,7 +87,7 @@ namespace SpaceSpyJam23
                 {
                     //<item>Item Name</item>
                     XmlNode item = xmlDoc.CreateElement("item");
-                    item.InnerText = itemName;
+                    item.InnerText = itemName.Replace(" ", "_"); ;
                     locationItems.AppendChild(item);
                 }
                 locationNode.AppendChild(locationItems);

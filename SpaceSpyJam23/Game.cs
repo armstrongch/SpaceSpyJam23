@@ -128,9 +128,13 @@ namespace SpaceSpyJam23
             Console.WriteLine("Nearby Items: " + String.Join(", ", loc.GetItemNames()));
             Console.WriteLine("Nearby Exits: " + String.Join(", ", loc.GetExitNames()));
             Console.WriteLine("Items in your Pockets: " + String.Join(", ", Player.GetItemNames()));
-            if (Player.CurrentLocation.Name != "HOME")
+            if (Player.SkillValues[SKILLS.HUNGER] > 75)
             {
-                Console.WriteLine("Warmth: " + Player.SkillValues[SKILLS.WARMTH] + "%");
+                Console.WriteLine("You can hear your stomach rumbling. You are very hungry.");
+            }
+            else if (Player.SkillValues[SKILLS.HUNGER] > 50)
+            {
+                Console.WriteLine("You are getting hungry.");
             }
         }
 

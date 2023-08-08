@@ -67,10 +67,7 @@ namespace SpaceSpyJam23
         {
             Item item = Items.First(i => i.Name == itemName);
             item.DoItemAction(itemActionName, this, player);
-            if (player.CurrentLocation.Name != "HOME")
-            {
-                player.IncrementSkillValue(SKILLS.WARMTH, -3);
-            }
+            player.IncrementSkillValue(SKILLS.HUNGER, 1);
         }
 
         public string GetLocationNameFromExitName(string exitName)
@@ -92,6 +89,11 @@ namespace SpaceSpyJam23
                     break;
                 }
             }
+        }
+
+        public void AddItem(Item i)
+        {
+            Items.Add(i);
         }
     }
 }
