@@ -25,7 +25,9 @@ namespace SpaceSpyJam23
         PINECONE,
 
         SQUIRREL,
-        ANGRY_SQUIRREL
+        ANGRY_SQUIRREL,
+
+        APPLE
     }
     
     public partial class ItemFactory
@@ -52,6 +54,7 @@ namespace SpaceSpyJam23
             ItemAction pickupItemAction = new ItemAction("pickup", $"Pick up the {itemName}.", ACTION_TYPE.WORLD, pickup);
 
             ItemAction throwRocksItemAction = new ItemAction("throw rocks", $"Throw a handful of rocks at {itemName}.", ACTION_TYPE.WORLD, throwRocks);
+            ItemAction giveAcornItemAction = new ItemAction("give acorn", $"Give an acorn to {itemName}.", ACTION_TYPE.WORLD, giveAcorn);
 
             switch (item)
             {
@@ -93,14 +96,16 @@ namespace SpaceSpyJam23
                 
                 case ITEMS.SQUIRREL: return new Item(item.ToString(), new List<ItemAction>() {
                     new ItemAction("examine", "Look at the squirrel", ACTION_TYPE.WORLD, examine),
-                    throwRocksItemAction
+                    throwRocksItemAction, giveAcornItemAction
                 });
 
                 case ITEMS.ANGRY_SQUIRREL:
                     return new Item(item.ToString(), new List<ItemAction>() {
                     new ItemAction("examine", "Look at the angry squirrel", ACTION_TYPE.WORLD, examine),
-                    throwRocksItemAction
+                    throwRocksItemAction, giveAcornItemAction
                 });
+
+                case ITEMS.APPLE: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction, eatItemAction });
 
                 default:
                     throw new NotImplementedException();
@@ -155,7 +160,16 @@ namespace SpaceSpyJam23
 
         static string eat(string itemName, Location location, Player player)
         {
-            return $"{itemName} doesn't taste very good. You can't eat that!";
+            if (itemName == "APPLE")
+            {
+                player.IncrementSkillValue(SKILLS.HUNGER, -30);
+                player.RemoveItem(itemName);
+                return $"The {itemName} is crisp and delicious.";
+            }
+            else
+            {
+                return $"{itemName} doesn't taste very good. You can't eat that!";
+            }
         }
 
         static string drop(string itemName, Location location, Player player)

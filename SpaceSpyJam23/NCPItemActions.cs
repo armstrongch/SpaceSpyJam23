@@ -33,5 +33,38 @@ namespace SpaceSpyJam23
             }
             
         }
+
+        static string giveAcorn(string itemName, Location location, Player player)
+        {
+            if (!player.InventoryContainsItem(ITEMS.ACORN))
+            {
+                return "You don't have an acorn to give.";
+            }
+            else
+            {
+                player.RemoveItem(ITEMS.ACORN);
+                player.IncrementSkillValue(SKILLS.SQUIRREL_KARMA, 1);
+                switch (itemName)
+                {
+                    case "SQUIRREL":
+                        if (player.SkillValues[SKILLS.SQUIRREL_KARMA] > 0)
+                        {
+                            player.PickUpItem(ItemFactory.GenerateItem(ITEMS.APPLE));
+                            return $"The {itemName} is delighted by your gift. In return, it offers you an apple.";
+                        }
+                        else
+                        {
+                            return $"The {itemName} cautiously accepts your gift.";
+                        }
+                        
+                    case "ANGRY SQUIRREL":
+                        location.RemoveOrReplaceItem(itemName, ITEMS.SQUIRREL);
+                        return $"The {itemName} cautiously accepts your gift.";
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+
+        }
     }
 }
