@@ -32,7 +32,8 @@ namespace SpaceSpyJam23
                 new List<Item>()
                 {
                     ItemFactory.GenerateItem(ITEMS.DEBRIS),
-                    ItemFactory.GenerateItem(ITEMS.DEBRIS)
+                    ItemFactory.GenerateItem(ITEMS.DEBRIS),
+                    ItemFactory.GenerateItem(ITEMS.SQUIRREL),
                 },
                 new Dictionary<string, string>()
                 {

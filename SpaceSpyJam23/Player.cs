@@ -11,6 +11,7 @@ namespace SpaceSpyJam23
     public enum SKILLS
     {
         HUNGER,
+        SQUIRREL_KARMA,
     }
 
     public class Player
@@ -25,10 +26,12 @@ namespace SpaceSpyJam23
         {
             CurrentLocation = startingLocation;
             Name = name;
-            SkillValues = new Dictionary<SKILLS, int>()
+
+            SkillValues = new Dictionary<SKILLS, int>();
+            foreach (SKILLS skill in (SKILLS[])Enum.GetValues(typeof(SKILLS)))
             {
-                { SKILLS.HUNGER, 0 },
-            };
+                SkillValues.Add(skill, 0);
+            }
             Inventory = new List<Item>();
         }
 
@@ -41,11 +44,9 @@ namespace SpaceSpyJam23
 
         public void UpdateSkillValue(string attributeName, int value)
         {
-            SKILLS skill = SKILLS.HUNGER;
-            switch(attributeName.ToUpper())
+            if (!Enum.TryParse(attributeName, out SKILLS skill))
             {
-                case "HUNGER": skill = SKILLS.HUNGER; break;
-                default: throw new NotImplementedException();
+                throw new NotImplementedException();
             }
             UpdateSkillValue(skill, value);
         }
@@ -92,16 +93,15 @@ namespace SpaceSpyJam23
 
         public bool InventoryContainsItem(ITEMS item)
         {
-            throw new NotImplementedException("This doesn't work!");
-            //Item generatedItem = ItemFactory.GenerateItem(item);
-            //return Inventory.Contains(generatedItem);
+
+            string itemName= ItemFactory.GenerateItem(item).Name;
+            return Inventory.Exists(x => x.Name == itemName);
         }
 
         public void RemoveItem(ITEMS item)
         {
-            throw new NotImplementedException("This doesn't work!");
-            //Item generatedItem = ItemFactory.GenerateItem(item);
-            //Inventory.Remove(generatedItem);
+            string itemName = ItemFactory.GenerateItem(item).Name;
+            RemoveItem(itemName);
         }
 
         public void RemoveItem(string itemName)

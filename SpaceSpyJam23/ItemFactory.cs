@@ -16,15 +16,19 @@ namespace SpaceSpyJam23
         TV,
         BLINKING_ANSWERING_MACHINE,
         ANSWERING_MACHINE,
+        
         DEBRIS,
         ACORN,
         LEAVES,
         ROCKS,
         STICKS,
         PINECONE,
+
+        SQUIRREL,
+        ANGRY_SQUIRREL
     }
     
-    public class ItemFactory
+    public partial class ItemFactory
     {
         private static ITEMS stringToItemsEnum(string itemName)
         {
@@ -39,10 +43,15 @@ namespace SpaceSpyJam23
         
         public static Item GenerateItem(ITEMS item)
         {
+            string itemName = item.ToString().Replace("_", " ");
+
+
             ItemAction eatItemAction = new ItemAction("eat", "Take a bite.", ACTION_TYPE.INVENTORY, eat);
 
-            ItemAction dropItemAction = new ItemAction("drop", $"Drop the {item.ToString().Replace("_", " ")}.", ACTION_TYPE.INVENTORY, drop);
-            ItemAction pickupItemAction = new ItemAction("pickup", $"Pick up the {item.ToString().Replace("_", " ")}.", ACTION_TYPE.WORLD, pickup);
+            ItemAction dropItemAction = new ItemAction("drop", $"Drop the {itemName}.", ACTION_TYPE.INVENTORY, drop);
+            ItemAction pickupItemAction = new ItemAction("pickup", $"Pick up the {itemName}.", ACTION_TYPE.WORLD, pickup);
+
+            ItemAction throwRocksItemAction = new ItemAction("throw rocks", $"Throw a handful of rocks at {itemName}.", ACTION_TYPE.WORLD, throwRocks);
 
             switch (item)
             {
@@ -81,6 +90,17 @@ namespace SpaceSpyJam23
                 case ITEMS.ROCKS: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction });
                 case ITEMS.STICKS: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction });
                 case ITEMS.PINECONE: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction, eatItemAction });
+                
+                case ITEMS.SQUIRREL: return new Item(item.ToString(), new List<ItemAction>() {
+                    new ItemAction("examine", "Look at the squirrel", ACTION_TYPE.WORLD, examine),
+                    throwRocksItemAction
+                });
+
+                case ITEMS.ANGRY_SQUIRREL:
+                    return new Item(item.ToString(), new List<ItemAction>() {
+                    new ItemAction("examine", "Look at the angry squirrel", ACTION_TYPE.WORLD, examine),
+                    throwRocksItemAction
+                });
 
                 default:
                     throw new NotImplementedException();
@@ -116,6 +136,10 @@ namespace SpaceSpyJam23
                     player.PickUpItem(GenerateItem(debrisItems[1]));
                     location.RemoveOrReplaceItem(itemName, null);
                     return $"Last night's storm has blown all kinds of debris out of the woods. You find: {debrisItems[0].ToString()} and {debrisItems[1].ToString()}.";
+                case "SQUIRREL":
+                    return "A small grey rodent with bright, curious eyes and a bushy tail.";
+                case "ANGRY SQUIRREL":
+                    return "A small grey rodent, staring back at you furiously.";
                 default:
                     return $"{itemName} is not very exciting";
             }
