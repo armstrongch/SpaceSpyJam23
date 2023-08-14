@@ -70,6 +70,7 @@ namespace SpaceSpyJam23
                 SaveGame();
                 if (QuitGame)
                 {
+                    Console.ReadLine();
                     Environment.Exit(0);
                 }
             }
@@ -100,13 +101,10 @@ namespace SpaceSpyJam23
                     Console.WriteLine("\"" + input + "\" is not valid input!");
                 }
             }
-
-            Console.WriteLine("*************************************************");
-
-            PrintWorldStatus();
-
             if (!paused)
             {
+                Console.WriteLine("*************************************************");
+                PrintWorldStatus();
                 Console.WriteLine("Type HELP for help. Type QUIT to quit.");
             }
 

@@ -115,6 +115,11 @@ namespace SpaceSpyJam23
                     new ItemAction("examine", "Look at the fallen tree.", ACTION_TYPE.WORLD, examine),
                     new ItemAction("chop", "Chop down the fallen tree.", ACTION_TYPE.WORLD, chop)
                 });
+                
+                case ITEMS.RADIO_TOWER:
+                    return new Item(item.ToString(), new List<ItemAction>() {
+                    new ItemAction("examine", "Look at the fallen radio tower.", ACTION_TYPE.WORLD, examine)
+                });
 
                 default:
                     throw new NotImplementedException();
@@ -134,6 +139,10 @@ namespace SpaceSpyJam23
                 case "WINDOW":
                     return "It is a beautiful autumn day outside. The sky is blue, and the auburn-colored leaves littering the ground are occasionally lifted by the breeze to dance across the yard.";
                 case "TV":
+                    if (player.SkillValues[SKILLS.FIXED_TOWER] > 0)
+                    {
+                        return "The cable is back on. Just in time for the big game! Thanks for playing!!";
+                    }
                     return "When you turn on the television, there is nothing but static. The cable must be out again.";
                 case "BLINKING ANSWERING MACHINE":
                     location.RemoveOrReplaceItem(itemName, ITEMS.ANSWERING_MACHINE);
@@ -156,6 +165,13 @@ namespace SpaceSpyJam23
                     return "A small grey rodent, staring back at you furiously.";
                 case "FALLEN TREE":
                     return "The winds from the storm have knocked over an old tree. Now, it leans precariously against the radio tower, creaking gently in the breeze.";
+                case "RADIO TOWER":
+                    string examineRadioTower = "This is the radio tower that cable television to your neighborhood.";
+                    if (location.GetItemNames().Contains("FALLEN TREE"))
+                    {
+                        examineRadioTower += " The fallen tree is resting against the antenna, bending it slightly.";
+                    }
+                    return examineRadioTower;
                 default:
                     return $"{itemName} is not very exciting";
             }
@@ -206,7 +222,9 @@ namespace SpaceSpyJam23
                 location.RemoveOrReplaceItem(itemName, null);
                 player.PickUpItem(ItemFactory.GenerateItem(ITEMS.STICKS));
                 player.PickUpItem(ItemFactory.GenerateItem(ITEMS.STICKS));
-                return "You make quick work of the old oak with your axe, reducing it to a pile of sticks in only a few minutes.";
+                player.UpdateSkillValue(SKILLS.FIXED_TOWER, 1);
+                return "You make quick work of the old oak with your axe, reducing it to a pile of sticks in only a few minutes. " +
+                    "Without the extra weight, the antenna of the radio tower springs back into position.";
             }
             else
             {

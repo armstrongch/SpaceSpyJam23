@@ -80,6 +80,11 @@ namespace SpaceSpyJam23
                             if (input.Contains(actionName))
                             {
                                 playerLocation.DoItemAction(itemName, actionName, player);
+                                if (itemName == "TV" && actionName == "EXAMINE" && player.SkillValues[SKILLS.FIXED_TOWER] > 0)
+                                {
+                                    return true;
+                                }
+
                                 return false;
                             }
                         }

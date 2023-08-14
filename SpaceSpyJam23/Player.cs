@@ -12,6 +12,7 @@ namespace SpaceSpyJam23
     {
         HUNGER,
         SQUIRREL_KARMA,
+        FIXED_TOWER
     }
 
     public class Player

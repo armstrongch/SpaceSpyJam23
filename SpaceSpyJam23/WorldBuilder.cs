@@ -14,6 +14,7 @@ namespace SpaceSpyJam23
             Item answeringMachine = ItemFactory.GenerateItem(ITEMS.BLINKING_ANSWERING_MACHINE);
             Item axe = ItemFactory.GenerateItem(ITEMS.AXE);
             Item fallenTree = ItemFactory.GenerateItem(ITEMS.FALLEN_TREE);
+            Item radioTower = ItemFactory.GenerateItem(ITEMS.RADIO_TOWER);
 
             Location home = new Location(
                 "HOME", "A cozy log cabin.",
@@ -27,8 +28,6 @@ namespace SpaceSpyJam23
                 "FRONT YARD", "A rectangular patch of leaf-strewn grass, surrounded by dense forest on three sides.",
                 new List<Item>()
                 {
-                    axe,
-                    ItemFactory.GenerateItem(ITEMS.DEBRIS),
                     ItemFactory.GenerateItem(ITEMS.DEBRIS),
                     ItemFactory.GenerateItem(ITEMS.SQUIRREL),
                 },
@@ -39,12 +38,20 @@ namespace SpaceSpyJam23
 
             Location orchard = new Location(
                 "ORCHARD", "A few rows of trees, branches heavy with ripe apples.",
-                new List<Item>() { },
-                new Dictionary<string, string>() { });
+                new List<Item>() {
+                    axe,
+                    ItemFactory.GenerateItem(ITEMS.APPLE),
+                    ItemFactory.GenerateItem(ITEMS.APPLE),
+                    ItemFactory.GenerateItem(ITEMS.APPLE),
+                },
+                new Dictionary<string, string>() { }); ;
 
             Location graveyard = new Location(
                "GRAVEYARD", "A small field of irregularly shaped tombstones, slightly overgrown and scattered with wildflowers.",
-               new List<Item>() { },
+               new List<Item>() {
+                    ItemFactory.GenerateItem(ITEMS.DEBRIS),
+                    ItemFactory.GenerateItem(ITEMS.SQUIRREL),
+               },
                new Dictionary<string, string>() { });
 
             Location fireRoad = new Location(
@@ -54,7 +61,7 @@ namespace SpaceSpyJam23
 
             Location hilltop = new Location(
                 "HILLTOP", "A wooded clearing several hundred feet above the road, offering a birds-eye view of the fiery Fall colors.",
-                new List<Item>() { fallenTree },
+                new List<Item>() { fallenTree, radioTower },
                 new Dictionary<string, string>()
                 {
                     { "ZIPLINE", "FRONT YARD" },
