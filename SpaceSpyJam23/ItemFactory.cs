@@ -27,7 +27,11 @@ namespace SpaceSpyJam23
         SQUIRREL,
         ANGRY_SQUIRREL,
 
-        APPLE
+        APPLE,
+        
+        AXE,
+        FALLEN_TREE,
+        RADIO_TOWER,
     }
     
     public partial class ItemFactory
@@ -95,17 +99,22 @@ namespace SpaceSpyJam23
                 case ITEMS.PINECONE: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction, eatItemAction });
                 
                 case ITEMS.SQUIRREL: return new Item(item.ToString(), new List<ItemAction>() {
-                    new ItemAction("examine", "Look at the squirrel", ACTION_TYPE.WORLD, examine),
+                    new ItemAction("examine", "Look at the squirrel.", ACTION_TYPE.WORLD, examine),
                     throwRocksItemAction, giveAcornItemAction
                 });
 
                 case ITEMS.ANGRY_SQUIRREL:
                     return new Item(item.ToString(), new List<ItemAction>() {
-                    new ItemAction("examine", "Look at the angry squirrel", ACTION_TYPE.WORLD, examine),
+                    new ItemAction("examine", "Look at the angry squirrel.", ACTION_TYPE.WORLD, examine),
                     throwRocksItemAction, giveAcornItemAction
                 });
 
                 case ITEMS.APPLE: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction, eatItemAction });
+                case ITEMS.AXE: return new Item(item.ToString(), new List<ItemAction>() { dropItemAction, pickupItemAction });
+                case ITEMS.FALLEN_TREE: return new Item(item.ToString(), new List<ItemAction>() {
+                    new ItemAction("examine", "Look at the fallen tree.", ACTION_TYPE.WORLD, examine),
+                    new ItemAction("chop", "Chop down the fallen tree.", ACTION_TYPE.WORLD, chop)
+                });
 
                 default:
                     throw new NotImplementedException();
@@ -145,6 +154,8 @@ namespace SpaceSpyJam23
                     return "A small grey rodent with bright, curious eyes and a bushy tail.";
                 case "ANGRY SQUIRREL":
                     return "A small grey rodent, staring back at you furiously.";
+                case "FALLEN TREE":
+                    return "The winds from the storm have knocked over an old tree. Now, it leans precariously against the radio tower, creaking gently in the breeze.";
                 default:
                     return $"{itemName} is not very exciting";
             }
@@ -186,6 +197,21 @@ namespace SpaceSpyJam23
             Item i = ItemFactory.GenerateItem(itemName);
             player.PickUpItem(i);
             return $"You pick up the {itemName} and put it in your pocket.";
+        }
+
+        static string chop(string itemName, Location location, Player player)
+        {
+            if (player.InventoryContainsItem(ITEMS.AXE))
+            {
+                location.RemoveOrReplaceItem(itemName, null);
+                player.PickUpItem(ItemFactory.GenerateItem(ITEMS.STICKS));
+                player.PickUpItem(ItemFactory.GenerateItem(ITEMS.STICKS));
+                return "You make quick work of the old oak with your axe, reducing it to a pile of sticks in only a few minutes.";
+            }
+            else
+            {
+                return "Although it has been dead for many years, you will still need a tool to take down this once-great oak tree.";
+            }
         }
     }
 }
